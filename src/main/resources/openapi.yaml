@@ -1,0 +1,525 @@
+openapi: "3.0.1"
+info:
+  title: Credit Service API
+  description: API to manage credits and credit cards
+  version: "1.0.0"
+  contact:
+    name: Piere Custodio
+    email: piere_07@hotmail.com
+servers:
+  - url: http://localhost:8082
+    description: Local Server
+tags:
+  - name: credits
+    description: Operations about credits
+  - name: creditCards
+    description: Operations about credit cards
+paths:
+  /api/credits:
+      get:
+        tags:
+          - credits
+        description: Get all credits
+        summary: Get all credits
+        operationId: findAllCredits
+        responses:
+          '200':
+            description: A list of credits
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CreditDto'
+      post:
+        tags:
+          - credits
+        description: Create a new credit
+        summary: Create a new credit
+        operationId: createCredit
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditDto'
+        responses:
+          '201':
+            description: Credit created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '409':
+            $ref: '#/components/responses/AlreadyExists'
+      put:
+        tags:
+          - credits
+        description: Update a credit
+        summary: Update a credit
+        operationId: updateCredit
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditDto'
+        responses:
+          '200':
+            description: Credit updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      delete:
+        tags:
+          - credits
+        description: Delete a credit
+        summary: Delete a credit
+        operationId: deleteCredit
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditDto'
+        responses:
+          '204':
+            description: Credit deleted
+          '404':
+            $ref: '#/components/responses/NotFound'
+  /api/credits/payment/{id}:
+      post:
+        tags:
+          - credits
+        description: Make a payment
+        summary: Make a payment
+        operationId: makePaymentCredit
+        parameters:
+          - name: id
+            in: path
+            description: ID of the credit
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationDto'
+        responses:
+          '200':
+            description: Payment made
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '404':
+            $ref: '#/components/responses/NotFound'
+  /api/creditcards:
+      get:
+        tags:
+          - creditCards
+        description: Get all credit cards
+        summary: Get all credit cards
+        operationId: findAllCreditCards
+        responses:
+          '200':
+            description: A list of credit cards
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CreditCardDto'
+      post:
+        tags:
+          - creditCards
+        description: Create a new credit card
+        summary: Create a new credit card
+        operationId: createCreditCard
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardDto'
+        responses:
+          '201':
+            description: Credit card created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditCardDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '409':
+            $ref: '#/components/responses/AlreadyExists'
+      put:
+        tags:
+          - creditCards
+        description: Update a credit card
+        summary: Update a credit card
+        operationId: updateCreditCard
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardDto'
+        responses:
+          '200':
+            description: Credit card updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditCardDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      delete:
+        tags:
+          - creditCards
+        description: Delete a credit card
+        summary: Delete a credit card
+        operationId: deleteCreditCard
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardDto'
+        responses:
+          '204':
+            description: Credit card deleted
+          '404':
+            $ref: '#/components/responses/NotFound'
+  /api/creditcards/checkbalance/{id}:
+      get:
+        tags:
+          - creditCards
+        description: Check balance of a credit card
+        summary: Check balance of a credit card
+        operationId: checkBalance
+        parameters:
+          - name: id
+            in: path
+            description: ID of the credit card
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Balance checked
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditCardDto'
+          '404':
+            $ref: '#/components/responses/NotFound'
+  /api/creditcards/charge/{id}:
+      post:
+        tags:
+          - creditCards
+        description: Make a charge
+        summary: Make a charge
+        operationId: makeChargeCreditCard
+        parameters:
+          - name: id
+            in: path
+            description: ID of the credit card
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationDto'
+        responses:
+          '200':
+            description: Charge made
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditCardDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '409':
+            $ref: '#/components/responses/InsuficientFunds'
+  /api/creditcards/payment/{id}:
+      post:
+        tags:
+          - creditCards
+        description: Make a payment
+        summary: Make a payment
+        operationId: makePaymentCreditCard
+        parameters:
+          - name: id
+            in: path
+            description: ID of the credit card
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationDto'
+        responses:
+          '200':
+            description: Payment made
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditCardDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '404':
+            $ref: '#/components/responses/NotFound'
+  /api/movements:
+      get:
+        tags:
+          - credits
+        description: Get all movements
+        summary: Get all movements
+        operationId: findAllMovements
+        responses:
+          '200':
+            description: A list of movements
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MovementDto'
+      post:
+        tags:
+          - credits
+        description: Create a new movement
+        summary: Create a new movement
+        operationId: createMovement
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementDto'
+        responses:
+          '201':
+            description: Movement created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MovementDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '409':
+            $ref: '#/components/responses/AlreadyExists'
+      put:
+        tags:
+          - credits
+        description: Update a movement
+        summary: Update a movement
+        operationId: updateMovement
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementDto'
+        responses:
+          '200':
+            description: Movement updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MovementDto'
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      delete:
+        tags:
+          - credits
+        description: Delete a movement
+        summary: Delete a movement
+        operationId: deleteMovement
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovementDto'
+        responses:
+          '204':
+            description: Movement deleted
+          '404':
+            $ref: '#/components/responses/NotFound'
+components:
+  responses:
+      NotFound:
+        description: Not found
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Not found
+      AlreadyExists:
+        description: already exists
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Already exists
+      BadRequest:
+        description: Bad request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Bad request
+      InsuficientFunds:
+        description: Insuficient funds
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Insuficient funds
+  schemas:
+    CreditCardDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the credit card
+        clientId:
+          type: string
+          description: ID of the client
+        creditType:
+          type: string
+          description: Type of the credit card
+          enum:
+            - PERSONAL
+            - EMPRESARIAL
+        creditLimit:
+          type: number
+          description: Credit limit of the credit card
+          format: double
+        interestRate:
+          type: number
+          description: Interest rate of the credit card
+          format: double
+        availableBalance:
+          type: number
+          description: Available balance of the credit card
+          format: double
+        movements:
+          type: array
+          description: Credit card movements
+          items:
+            $ref: '#/components/schemas/MovementDto'
+        expirationDate:
+          type: string
+          description: Expiration date of the credit card
+          format: date
+          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+    CreditDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the credit
+        clientId:
+          type: string
+          description: ID of the client
+        creditType:
+          type: string
+          description: Type of the credit
+          enum:
+            - PERSONAL
+            - EMPRESARIAL
+        balance:
+          type: number
+          description: Balance of the credit
+          format: double
+        interestRate:
+          type: number
+          description: Interest rate of the credit
+          format: double
+        outstandingBalance:
+          type: number
+          description: Outstanding balance of the credit
+          format: double
+        expirationDate:
+          type: string
+          description: Expiration date of the credit
+          format: date
+          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+        disbursementDate:
+          type: string
+          description: Disbursement date of the credit
+          format: date
+          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+        movements:
+          type: array
+          description: Credit movements
+          items:
+            $ref: '#/components/schemas/MovementDto'
+    MovementDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the movement
+        createAt:
+          type: string
+          description: Date of the movement
+          format: date
+          pattern: '^\\d{4}-\\d{2}-\\d{2}$'
+        amount:
+          type: number
+          format: double
+          description: Amount of the movement
+        movementType:
+          type: string
+          description: Type of movement
+          enum:
+            - PAGO
+            - CARGO
+        description:
+          type: string
+          description: Description of the movement
+    OperationDto:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+          description: Amount of the operation
