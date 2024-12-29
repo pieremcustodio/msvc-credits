@@ -45,7 +45,7 @@ public class MovementController {
      *         or Bad request (status code 400)
      *         or already exists (status code 409)
      */
-    @ApiOperation(value = "Create a new movement", nickname = "createMovement", notes = "Create a new movement", response = MovementDto.class, tags={ "credits", })
+    @ApiOperation(value = "Create a new movement", nickname = "createMovement", notes = "Create a new movement", response = MovementDto.class, tags = { "credits", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Movement created", response = MovementDto.class),
         @ApiResponse(code = 400, message = "Bad request", response = InlineResponse400.class),
@@ -54,7 +54,7 @@ public class MovementController {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    Mono<ResponseEntity<MovementDto>> createMovement(@ApiParam(value = "" ,required=true )  @Valid @RequestBody MovementDto movementDto) {
+    Mono<ResponseEntity<MovementDto>> createMovement(@ApiParam(value = "", required = true)  @Valid @RequestBody MovementDto movementDto) {
         return movementService.create(movementDto)
                 .map(movement -> ResponseEntity.created(URI.create("/api/movements")).body(movement));
     }
@@ -67,7 +67,7 @@ public class MovementController {
      * @return Movement deleted (status code 204)
      *         or Not found (status code 404)
      */
-    @ApiOperation(value = "Delete a movement", nickname = "deleteMovement", notes = "Delete a movement", tags={ "credits", })
+    @ApiOperation(value = "Delete a movement", nickname = "deleteMovement", notes = "Delete a movement", tags = { "credits", })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Movement deleted"),
         @ApiResponse(code = 404, message = "Not found", response = InlineResponse404.class) })
@@ -75,7 +75,7 @@ public class MovementController {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    Mono<ResponseEntity<Void>> deleteMovement(@ApiParam(value = "" ,required=true )  @Valid @RequestBody MovementDto movementDto) {
+    Mono<ResponseEntity<Void>> deleteMovement(@ApiParam(value = "", required = true)  @Valid @RequestBody MovementDto movementDto) {
         return movementService.delete(movementDto)
                 .map(movement -> ResponseEntity.ok().build());
     }
@@ -86,7 +86,7 @@ public class MovementController {
      *
      * @return A list of movements (status code 200)
      */
-    @ApiOperation(value = "Get all movements", nickname = "findAllMovements", notes = "Get all movements", response = MovementDto.class, responseContainer = "List", tags={ "credits", })
+    @ApiOperation(value = "Get all movements", nickname = "findAllMovements", notes = "Get all movements", response = MovementDto.class, responseContainer = "List", tags = { "credits", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "A list of movements", response = MovementDto.class, responseContainer = "List") })
     @GetMapping(
@@ -105,7 +105,7 @@ public class MovementController {
      *         or Bad request (status code 400)
      *         or Not found (status code 404)
      */
-    @ApiOperation(value = "Update a movement", nickname = "updateMovement", notes = "Update a movement", response = MovementDto.class, tags={ "credits", })
+    @ApiOperation(value = "Update a movement", nickname = "updateMovement", notes = "Update a movement", response = MovementDto.class, tags = { "credits", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Movement updated", response = MovementDto.class),
         @ApiResponse(code = 400, message = "Bad request", response = InlineResponse400.class),
@@ -114,7 +114,7 @@ public class MovementController {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    Mono<ResponseEntity<MovementDto>> updateMovement(@ApiParam(value = "" ,required=true )  @Valid @RequestBody MovementDto movementDto) {
+    Mono<ResponseEntity<MovementDto>> updateMovement(@ApiParam(value = "", required = true)  @Valid @RequestBody MovementDto movementDto) {
         return movementService.update(movementDto)
                 .map(movement -> ResponseEntity.ok().body(movement));
     }

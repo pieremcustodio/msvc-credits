@@ -72,7 +72,7 @@ public class CreditCardServiceImpl implements CreditCardService {
                         .build())
                         .flatMap(movement -> {
                             creditCard.setAvailableBalance(creditCard.getAvailableBalance() + amount);
-                            if(creditCard.getMovementIds() != null) {
+                            if (creditCard.getMovementIds() != null) {
                                 creditCard.getMovementIds().add(movement.getId());
                             } else {
                                 creditCard.setMovementIds(Arrays.asList(movement.getId()));
@@ -99,7 +99,7 @@ public class CreditCardServiceImpl implements CreditCardService {
                         .build())
                         .flatMap(movement -> {
                             creditCard.setAvailableBalance(creditCard.getAvailableBalance() - amount);
-                            if(creditCard.getMovementIds() != null) {
+                            if (creditCard.getMovementIds() != null) {
                                 creditCard.getMovementIds().add(movement.getId());
                             } else {
                                 creditCard.setMovementIds(Arrays.asList(movement.getId()));
