@@ -183,4 +183,10 @@ public class CreditCardController {
         return creditCardService.update(creditCardDto)
                 .map(creditCard -> ResponseEntity.ok().body(creditCard));
     }
+
+    @GetMapping("/has-credit-card/{clientId}")
+    Mono<ResponseEntity<Boolean>> hasCreditCard(@PathVariable String clientId) {
+        return creditCardService.hasCreditCard(clientId)
+                .map(hasCreditCard -> ResponseEntity.ok().body(hasCreditCard));
+    }
 }

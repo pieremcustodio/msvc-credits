@@ -123,5 +123,10 @@ public class CreditCardServiceImpl implements CreditCardService {
                     });
             });
     }
+
+    @Override
+    public Mono<Boolean> hasCreditCard(String clientId) {
+        return creditCardDao.existsByClientId(clientId).defaultIfEmpty(false);
+    }
     
 }

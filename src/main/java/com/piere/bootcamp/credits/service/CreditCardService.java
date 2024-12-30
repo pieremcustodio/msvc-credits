@@ -23,4 +23,6 @@ public interface CreditCardService {
 
     Mono<CreditCardDto> checkBalance(String id);
 
+    Mono<Boolean> hasCreditCard(String clientId);
+
 }
